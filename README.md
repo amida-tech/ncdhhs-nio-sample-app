@@ -1,12 +1,12 @@
-## Create a Blue Button Sandbox Account
+This project is derived from the CMS Blue Button Sample App, located here: https://github.com/CMSgov/bluebutton-sample-client-nodejs-react
 
-Create an account at the link below, and register your test application, to get your Blue Button Sandbox Credentials which will allow you to
-access the Blue Button synthetic data. These credentials will be necessary to run this sample application as well as
-utilize the Blue Button data within your own applcation. See the section below 'Running the Back-end & Front-end'.
+It has been adapted to work with NC Medicaid's Patient Access API, in the sandbox environment.
 
-https://sandbox.bluebutton.cms.gov/v1/accounts/create
+## Create an NC Medicaid Connect Sandbox Account
 
-To ensure this sample application will work properly, make sure that when you register your application you add
+Through the Medicaid Connect portal, fill out an application to get credentials to the sandbox patient access API
+
+To ensure this sample application will work properly, make sure that when you register you add
 the following url (see below) under the 'Callback URLS/Redirect Uris' section:
 
 http://localhost:3001/api/bluebutton/callback/
@@ -61,6 +61,8 @@ data would be: BBUser29999 (PWD: PW29999!) or BBUser29998 (PWD: PW29998!)
 Read the DEVELOPER NOTES found in the code to understand the application
 and where you will need to make adjustments/changes as well as some
 suggestions for best practices.
+
+If you want to run this system locally, you will need to edit the `vite.config.mts` file, and replace the proxy target value from `http://server:3001` to `http://localhost:3001`.  This is because it is currently configured to run in docker.  You may then install all packages in the client and server folders using `yarn install`, and start the client and server indepdently using `yarn start`.
 
 ## Usage Examples
 
