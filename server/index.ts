@@ -10,7 +10,6 @@ interface User {
     diagnosticReportData?: any,
     encounterData?: any,
     eobData?: any,
-    healthcareServiceData?: any,
     insurancePlanData?: any,
     locationData?: any,
     medicationRequestData?: any,
@@ -111,7 +110,6 @@ app.get("/api/bluebutton/callback", (req: Request, res: Response) => {
               const diagnosticReportResults = await bb.getDiagnosticReportData(authToken);
               const encounterResults = await bb.getEncounterData(authToken);
               const eobResults = await bb.getExplanationOfBenefitData(authToken);
-              const healthcareServiceResults = await bb.getHealthcareServiceData(authToken);
               const insurancePlanResults = await bb.getInsurancePlanData(authToken);
               const locationResults = await bb.getLocationData(authToken);
               const medicationRequestResults = await bb.getMedicationRequestData(authToken);
@@ -133,7 +131,6 @@ app.get("/api/bluebutton/callback", (req: Request, res: Response) => {
               loggedInUser.diagnosticReportData = diagnosticReportResults.response?.data;
               loggedInUser.encounterData = encounterResults.response?.data;
               loggedInUser.eobData = eobResults.response?.data;
-              loggedInUser.healthcareServiceData = healthcareServiceResults.response?.data;
               loggedInUser.insurancePlanData = insurancePlanResults.response?.data;
               loggedInUser.locationData = locationResults.response?.data;
               loggedInUser.medicationRequestData = medicationRequestResults.response?.data;
@@ -220,12 +217,6 @@ app.get("/api/data/encounter", (req: Request, res: Response) => {
 app.get("/api/data/explanationOfBenefit", (req: Request, res: Response) => {
   if (loggedInUser.eobData) {
     res.json(loggedInUser.eobData);
-  }
-});
-
-app.get("/api/data/healthcareService", (req: Request, res: Response) => {
-  if (loggedInUser.healthcareServiceData) {
-    res.json(loggedInUser.healthcareServiceData);
   }
 });
 

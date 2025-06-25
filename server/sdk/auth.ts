@@ -79,22 +79,24 @@ export function generateAuthorizeUrl(
   const pkceParams = `code_challenge_method=S256&code_challenge=${AuthData.codeChallenge}`;
 
   // TODO: need to make aud and config url the same...
+  //const audParam = qs.stringify( {'aud': 'https://preprod.auth.connect.medicaid.ncdhhs.gov/fhir'});
   const audParam = qs.stringify( {'aud': 'https://ncdhhs-test.medicasoft.us/fhir'});
 
+
   let scopesArray = [
-    "openid",
-    "launch/patient",
-    "fhirUser",
+    "openid", 
+    "launch/patient", 
+    "fhirUser", 
     "offline_access",
     "profile",
     "patient/Condition.read",
-    "patient/Coverage.read",
+    "patient/Coverage.read", 
     "patient/DiagnosticReport.read",
+    "patient/DiagnosticOrder.read",
     "patient/Encounter.read",
-    "patient/ExplanationOfBenefit.read",
-    "patient/HealthcareService.read",
-    "patient/InsurancePlan.read",
-    "patient/Location.read",
+    "patient/ExplanationOfBenefit.read", 
+    "patient/InsurancePlan.read", 
+    "patient/Location.read", 
     "patient/MedicationRequest.read",
     "patient/Observation.read",
     "patient/Organization.read",
@@ -102,13 +104,7 @@ export function generateAuthorizeUrl(
     "patient/Patient.read",
     "patient/Practitioner.read",
     "patient/PractitionerRole.read",
-    "patient/Procedure.read",
-    "patient/ServiceRequest.read",
-    "patient/*.read",
-    "user/ExplanationOfBenefit.read",
-    "user/*.read",
-    "user/Practitioner.read",
-    "patient/*.*"
+    "patient/Procedure.read"
   ]
 
   // optionally add in patient scope to request for authorized representatives.

@@ -5,7 +5,6 @@ import FHIRCondition from './fhir/condition';
 import FHIREncounter from './fhir/encounter';
 import FHIRDiagnosticReport from './fhir/diagnosticReport';
 import FHIRExplanationOfBenefit from './fhir/explanationOfBenefit';
-import FHIRHealthcareService from './fhir/healthcareService';
 import FHIRInsurancePlan from './fhir/insurancePlan';
 import FHIRLocation from './fhir/location';
 import FHIRMedicationRequest from './fhir/medicationRequest';
@@ -16,12 +15,15 @@ import FHIRPractitioner from './fhir/practitioner';
 import FHIRPractitionerRole from './fhir/practitionerRole';
 import FHIRProcedure from './fhir/procedure';
 import FHIRServiceRequest from './fhir/serviceRequest';
+import FHIRPatientName from './fhir/patientName';
 
 export default function Records() { 
        
         return (
             <div className='ds-content'>
-                
+                <div className='ds-u-margin-top--3'>
+                  <FHIRPatientName />
+                </div>
                 <Tabs tablistClassName="ds-u-margin-top--3">
                     <TabPanel id="patient" tab="Patient Records">
                       <div>
@@ -57,8 +59,6 @@ export default function Records() {
                 </TabPanel>
                 <TabPanel id="supporting" tab="Supporting Records">
                     <div>
-                        <h2>Healthcare Services</h2>
-                        <FHIRHealthcareService />
                         <h2>Insurance Plans</h2>
                         <FHIRInsurancePlan />
                         <h2>Locations</h2>

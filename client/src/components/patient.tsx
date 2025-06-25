@@ -1,4 +1,4 @@
-import avatar from '../images/patient.png'
+import avatar from '../images/maria.png'
 import React, { useEffect, useState } from 'react';
 import * as process from 'process';
 import { Button } from '@cmsgov/design-system';
@@ -12,6 +12,7 @@ export type Authorization = {
 
 export type Profile = {
     user_ncid: string,
+    name: string,
     fhirUser: string,
     user_authorizations?: Array<Authorization>
 }
@@ -96,12 +97,12 @@ export default function Patient() {
             <div className="ds-u-display--flex ds-u-justify-content--between">
                 <div className="ds-l-col--5">
                     <div className='ds-u-display--flex ds-u-flex-direction--row ds-u-align-items--start'>
-                        <img src={avatar} alt="Profile avatar" />
+                        <img src={avatar} alt="Profile avatar" width="200"/>
                         <div>
                             <ul>
-                                <li>Test User</li>
-                                <li>Born 07/18/1978</li>
-                                <li>Raleigh, NC</li>
+                                <li>Maria Velazquez</li>
+                                <li>Born 12/12/1985</li>
+                                <li>Sanford, NC</li>
                             </ul>
                         </div>
                     </div>
@@ -113,7 +114,7 @@ export default function Patient() {
                 <div className="ds-l-col--6 bb-c-card ds-u-padding-bottom--2 ds-u-margin-bottom--2">
                     <h2>NC Account Profile</h2>
                     <ul>
-                        <li>NCID: {userProfile?.user_ncid}</li>
+                        <li>Name: {userProfile?.name}</li>
                         <li>Subscriber ID: {userProfile?.fhirUser}</li>
                         <li>Authorized Representative for:
                             {userProfile?.user_authorizations?.map(authorization => {
@@ -123,7 +124,7 @@ export default function Patient() {
                                             {authorization.firstName} {authorization.lastName}
                                             <ul>
                                                 <li>{authorization.fhirUser}</li>
-                                                <Button variation="solid" onClick={() => loadBeneficiaryData(authorization.fhirUser)} className="ds-l-col--6" >Load Data</Button>
+                                                <Button variation="solid" onClick={() => loadBeneficiaryData(authorization.fhirUser)} className="ds-l-col--8" >View Records</Button>
                                             </ul>
                                         </li>
                                     </ul>
