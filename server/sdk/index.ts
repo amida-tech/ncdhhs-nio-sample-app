@@ -27,9 +27,9 @@ export { Errors };
 
 const DEFAULT_CONFIG_FILE_LOCATION = `${cwd()}/.bluebutton-config.json`;
 const LOCAL_BASE_URL = "http://localhost:8000";
-const TEST_BASE_URL = "https://ncdhhs-test.medicasoft.us";
-const SANDBOX_BASE_URL = "https://ncdhhs-test.medicasoft.us";
-const PRODUCTION_BASE_URL = "https://ncdhhs-test.medicasoft.us";
+const TEST_BASE_URL = "https://test.patient-api.connect.medicaid.ncdhhs.gov";
+const SANDBOX_BASE_URL = "https://sandbox.patient-api.connect.medicaid.ncdhhs.gov";
+const PRODUCTION_BASE_URL = "https://patient-api.connect.medicaid.ncdhhs.gov";
 
 /**
  * FHIR end point retry configuration
@@ -583,8 +583,8 @@ export class BlueButton {
    * @param patientScope - Optional patient scope to add to request
    * @returns the URL direct to beneficiary login
    */
-  generateAuthorizeUrl(authData: AuthData, patientScope: string): string {
-    return generateAuthorizeUrl(this, authData, patientScope);
+  async generateAuthorizeUrl(authData: AuthData, patientScope: string): Promise<string> {
+    return await generateAuthorizeUrl(this, authData, patientScope);
   }
 
   /**
