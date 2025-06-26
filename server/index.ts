@@ -59,17 +59,16 @@ function clearBB2Data() {
 let authToken: AuthorizationToken;
 
 // authorization flow for base user.
-app.get("/api/authorize/authurl", (req: Request, res: Response) => {
-  res.send(bb.generateAuthorizeUrl(authData, ""));
+app.get("/api/authorize/authurl", async (req: Request, res: Response) => {
+  res.send(await bb.generateAuthorizeUrl(authData, ""));
 });
 
 //authorization flow for auth rep user.
-app.post("/api/authorize/beneficiary", (req: Request, res: Response) => {
+app.post("/api/authorize/beneficiary", async (req: Request, res: Response) => {
 
   //Post receives the beneficiary id, restructure into custom scope
   let patientScope = `Patient.r?_id=${req.body.beneficiaryId.replace("Patient/", "")}`;
-  console.log(patientScope);
-  res.send(bb.generateAuthorizeUrl(authData, patientScope));
+  res.send(await bb.generateAuthorizeUrl(authData, patientScope));
 
 });
 

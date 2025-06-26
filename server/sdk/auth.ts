@@ -66,21 +66,23 @@ export function generateAuthData(): AuthData {
   };
 }
 
-function getAuthorizationUrl(bb: BlueButton): string {
-  return `${bb.baseUrl}/oauth/authorize`;
+async function getAuthorizationUrl(bb: BlueButton): Promise<string> {
+  const resp = await axios.get(`${bb.baseUrl}/fhir/.well-known/smart-configuration`)
+  return resp.data.authorization_endpoint;
 }
 
-export function generateAuthorizeUrl(
+export async function generateAuthorizeUrl(
   bb: BlueButton,
   AuthData: AuthData,
   patientScope: string
-): string {
+): Promise<string> {
 
   const pkceParams = `code_challenge_method=S256&code_challenge=${AuthData.codeChallenge}`;
 
   // TODO: need to make aud and config url the same...
-  //const audParam = qs.stringify( {'aud': 'https://preprod.auth.connect.medicaid.ncdhhs.gov/fhir'});
-  const audParam = qs.stringify( {'aud': 'https://ncdhhs-test.medicasoft.us/fhir'});
+  const audParam = qs.stringify( {'aud': 'https://test.patient-api.connect.medicaid.ncdhhs.gov/fhir'});
+  //const audParam = qs.stringify( {'aud': `${bb.baseUrl}/fhir`});
+  //const audParam = qs.stringify({'aud': `https://ncdhhs-test.medicasoft.us/fhir`});
 
 
   let scopesArray = [
@@ -114,15 +116,12 @@ export function generateAuthorizeUrl(
 
   const scopesString = scopesArray.toString().replace(/,/g, " ");
 
-  // TODO: make scope params an array that we can stringify.
   const scopeParam = qs.stringify( {'scope': scopesString})
 
-  //I'm getting the Auth0 prompt still in my app, something is amiss here..  this is authorize not token ex.
+  const authURL = await getAuthorizationUrl(bb);
 
-  const fullRequest = `${getAuthorizationUrl(bb)}?client_id=${bb.clientId}&redirect_uri=${bb.callbackUrl
+  const fullRequest = `${authURL}?client_id=${bb.clientId}&redirect_uri=${bb.callbackUrl
     }&state=${AuthData.state}&${audParam}&${scopeParam}&response_type=code&${pkceParams}`;
-
-
 
   return fullRequest
 }
@@ -166,15 +165,9 @@ function validateCallbackRequestQueryParams(
   }
 }
 
-export function getAccessTokenUrl(bb: BlueButton): string {
-  
-  //TODO:  THIS IS HITTING THE OAUTH/TOKEN ENDPOINT FROM AUTH0?
-  // HOWEVER, THIS NEEDS TO GO TO security/smart/token.  HOWEVER,
-  // THIS TOKEN WILL NOT BE THE ONE ISSUED BY THE BASE ENDPOINT (I DON'T THINK?)
-  // BECAUSE THIS ISN'T THE ENDPOINT LISTED ON THE CONFORMANCE STATEMENT.
-  // BUT IT'S NOT NESTED UNDER /FHIR, IT'S UNDER SECURITY.
-  //return `${bb.baseUrl}/oauth/token/`;
-  return `${bb.baseUrl}/security/smart/token`;
+export async function getAccessTokenUrl(bb: BlueButton): Promise<string> {
+  const resp = await axios.get(`${bb.baseUrl}/fhir/.well-known/smart-configuration`)
+  return resp.data.token_endpoint;
 }
 
 // Get an access token from callback code & state
@@ -200,7 +193,7 @@ export async function getAuthorizationToken(
   const postData = generateTokenPostData(bb, authData, callbackRequestCode);
 
 
-    const resp = await doPost(getAccessTokenUrl(bb), postData, {
+    const resp = await doPost(await getAccessTokenUrl(bb), postData, {
       headers: authorizationHeaders,
     });
 
@@ -230,7 +223,7 @@ export async function refreshAuthToken(
     refresh_token: authToken.refreshToken,
   };
 
-  const resp = await doPost(getAccessTokenUrl(bb), postData, {
+  const resp = await doPost(await getAccessTokenUrl(bb), postData, {
     headers: SDK_HEADERS,
     auth: {
       username: bb.clientId,
