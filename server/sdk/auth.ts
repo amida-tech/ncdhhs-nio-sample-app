@@ -78,12 +78,8 @@ export async function generateAuthorizeUrl(
 ): Promise<string> {
 
   const pkceParams = `code_challenge_method=S256&code_challenge=${AuthData.codeChallenge}`;
-
-  // TODO: need to make aud and config url the same...
-  const audParam = qs.stringify( {'aud': 'https://test.patient-api.connect.medicaid.ncdhhs.gov/fhir'});
-  //const audParam = qs.stringify( {'aud': `${bb.baseUrl}/fhir`});
-  //const audParam = qs.stringify({'aud': `https://ncdhhs-test.medicasoft.us/fhir`});
-
+bb.baseUrl
+  const audParam = qs.stringify( {'aud': `https://${bb.baseUrl}/fhir`});
 
   let scopesArray = [
     "openid", 
