@@ -79,7 +79,7 @@ export async function generateAuthorizeUrl(
 
   const pkceParams = `code_challenge_method=S256&code_challenge=${AuthData.codeChallenge}`;
 bb.baseUrl
-  const audParam = qs.stringify( {'aud': `https://${bb.baseUrl}/fhir`});
+  const audParam = qs.stringify( {'aud': `${bb.baseUrl}/fhir`});
 
   let scopesArray = [
     "openid", 
