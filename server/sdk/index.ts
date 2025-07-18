@@ -29,6 +29,7 @@ const DEFAULT_CONFIG_FILE_LOCATION = `${cwd()}/.bluebutton-config.json`;
 const LOCAL_BASE_URL = "http://localhost:8000";
 const TEST_BASE_URL = "https://test.patient-api.connect.medicaid.ncdhhs.gov";
 const SANDBOX_BASE_URL = "https://sandbox.patient-api.connect.medicaid.ncdhhs.gov";
+const PREPROD_BASE_URL = "https://preprod.patient-api.connect.medicaid.ncdhhs.gov";
 const PRODUCTION_BASE_URL = "https://patient-api.connect.medicaid.ncdhhs.gov";
 
 /**
@@ -166,11 +167,13 @@ export class BlueButton {
       baseUrl:
         config.environment === Environments.PRODUCTION
           ? PRODUCTION_BASE_URL
-          : config.environment === Environments.TEST
+            : config.environment === Environments.PREPROD
             ? TEST_BASE_URL
-            : config.environment === Environments.LOCAL
-              ? LOCAL_BASE_URL
-              : SANDBOX_BASE_URL,
+              : config.environment === Environments.TEST
+                ? TEST_BASE_URL
+                : config.environment === Environments.LOCAL
+                  ? LOCAL_BASE_URL
+                  : SANDBOX_BASE_URL,
     };
   }
 
