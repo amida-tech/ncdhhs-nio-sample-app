@@ -168,7 +168,7 @@ export class BlueButton {
         config.environment === Environments.PRODUCTION
           ? PRODUCTION_BASE_URL
             : config.environment === Environments.PREPROD
-            ? TEST_BASE_URL
+            ? PREPROD_BASE_URL
               : config.environment === Environments.TEST
                 ? TEST_BASE_URL
                 : config.environment === Environments.LOCAL

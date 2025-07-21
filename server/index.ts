@@ -1,4 +1,5 @@
 import express, {Request, Response} from "express";
+import cors from "cors";
 import {AuthorizationToken, BlueButton} from "./sdk";
 import * as fs from "fs";
 
@@ -34,6 +35,8 @@ const ERR_MISSING_STATE = "State is required when using PKCE"
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 const bb = new BlueButton();
 const authData = bb.generateAuthData();
