@@ -97,26 +97,26 @@ export default function FHIRExplanationOfBenefit() {
                                         </TableHead>
                                         <TableRow>
                                             <TableCell>
-                                                Insurer:
+                                                Claim ID:
                                             </TableCell>
                                             <TableCell>
-                                                {record.resource.insurer.display}
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>
-                                                Outcome:
-                                            </TableCell>
-                                            <TableCell>
-                                                {record.resource.outcome}
+                                                {record.resource.id}
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>
-                                                Completed:
+                                                Claim Type:
                                             </TableCell>
                                             <TableCell>
-                                                {record.resource.billablePeriod?.end}
+                                                {record.resource.type.coding?.[0].code}
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                Last Updated:
+                                            </TableCell>
+                                            <TableCell>
+                                                {record.resource.meta?.lastUpdated}
                                             </TableCell>
                                         </TableRow>
                                     </Table>

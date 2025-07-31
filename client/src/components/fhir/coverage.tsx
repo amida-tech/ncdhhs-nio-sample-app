@@ -96,10 +96,10 @@ export default function FHIRCoverage() {
                                         </TableHead>
                                         <TableRow>
                                             <TableCell>
-                                                Subscriber Name:
+                                                Status:
                                             </TableCell>
                                             <TableCell>
-                                                {record.resource.subscriber?.display}
+                                                {record.resource.status}
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
