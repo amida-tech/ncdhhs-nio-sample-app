@@ -1,4 +1,4 @@
-import avatar from '../images/maria.png'
+import avatar from '../images/patient.png'
 import React, { useEffect, useState } from 'react';
 import * as process from 'process';
 import { Button } from '@cmsgov/design-system';
@@ -11,15 +11,27 @@ export type Authorization = {
 }
 
 export type Profile = {
-    user_ncid: string,
+    userNCID: string,
+    sub: string,
+    displayName: string,
     name: string,
     fhirUser: string,
+    updated_at: string,
     user_authorizations?: Array<Authorization>
 }
 
 export default function Patient() {
 
-    const [userProfile, setUserProfile] = useState<Profile>();
+    const defaultProfile = {
+        userNCID: "",
+        sub: "",
+        displayName: "",
+        name: "",
+        fhirUser: "",
+        updated_at: ""
+    }
+
+    const [userProfile, setUserProfile] = useState<Profile>(defaultProfile);
     const test_url = process.env.TEST_APP_API_URL ? process.env.TEST_APP_API_URL : ''
 
     /**
@@ -79,6 +91,8 @@ export default function Patient() {
             .then(res => {
                 return res.json();
             }).then(profileData => {
+                profileData.displayName = `${profileData.given_name} ${profileData.family_name}`
+                profileData.userNCID = profileData.sub?.split("|")[2];
                 setUserProfile(profileData);
             });
     }, [])
@@ -93,16 +107,15 @@ export default function Patient() {
     */
     return (
         <div className="ds-u-display-flex">
-            <h1>User Information</h1>
+            <h1><b>User Information</b></h1>
             <div className="ds-u-display--flex ds-u-justify-content--between">
-                <div className="ds-l-col--5">
+                <div className="ds-l-col--6">
                     <div className='ds-u-display--flex ds-u-flex-direction--row ds-u-align-items--start'>
                         <img src={avatar} alt="Profile avatar" width="200"/>
                         <div>
                             <ul>
-                                <li>Maria Velazquez</li>
-                                <li>Born 12/12/1985</li>
-                                <li>Sanford, NC</li>
+                                <li><b>Name:</b> {userProfile?.displayName}</li>
+                                <li><b>Email:</b> {userProfile?.name}</li>
                             </ul>
                         </div>
                     </div>
@@ -112,11 +125,18 @@ export default function Patient() {
                     </div>
                 </div>
                 <div className="ds-l-col--6 bb-c-card ds-u-padding-bottom--2 ds-u-margin-bottom--2">
-                    <h2>NC Account Profile</h2>
+                    <h2><b>Medicaid Connect Profile</b></h2>
                     <ul>
-                        <li>Name: {userProfile?.name}</li>
-                        <li>Subscriber ID: {userProfile?.fhirUser}</li>
-                        <li>Authorized Representative for:
+                        <li><b>NCID:</b> {userProfile?.userNCID}</li>
+                        <li><b>Last Updated:</b> {userProfile?.updated_at}</li>
+                        <li><b>Subscriber ID:</b> {userProfile?.fhirUser}</li>
+                        <li><b>Authorized Representative for:</b>
+                            {(userProfile?.user_authorizations === undefined || userProfile?.user_authorizations?.length === 0) && 
+                             <ul>
+                                <li>None Found</li>
+                             </ul>
+                        
+                            }
                             {userProfile?.user_authorizations?.map(authorization => {
                                 return (
                                     <ul>
