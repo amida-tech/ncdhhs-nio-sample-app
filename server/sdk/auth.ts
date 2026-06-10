@@ -67,7 +67,7 @@ export function generateAuthData(): AuthData {
 }
 
 async function getAuthorizationUrl(bb: BlueButton): Promise<string> {
-  const resp = await axios.get(`${bb.baseUrl}/fhir/.well-known/smart-configuration`)
+  const resp = await axios.get(`${bb.baseUrl}/fhir/.well-known/smart-configuration`);
   return resp.data.authorization_endpoint;
 }
 
@@ -90,7 +90,6 @@ bb.baseUrl
     "patient/Condition.read",
     "patient/Coverage.read", 
     "patient/DiagnosticReport.read",
-    "patient/DiagnosticOrder.read",
     "patient/Encounter.read",
     "patient/ExplanationOfBenefit.read", 
     "patient/InsurancePlan.read", 
@@ -102,7 +101,8 @@ bb.baseUrl
     "patient/Patient.read",
     "patient/Practitioner.read",
     "patient/PractitionerRole.read",
-    "patient/Procedure.read"
+    "patient/Procedure.read",
+    "patient/ServiceRequest.read"
   ]
 
   // optionally add in patient scope to request for authorized representatives.
@@ -187,7 +187,6 @@ export async function getAuthorizationToken(
   }
 
   const postData = generateTokenPostData(bb, authData, callbackRequestCode);
-
 
     const resp = await doPost(await getAccessTokenUrl(bb), postData, {
       headers: authorizationHeaders,
