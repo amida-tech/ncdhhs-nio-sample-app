@@ -149,7 +149,7 @@ export class BlueButton {
     ) {
       throw new Error(
         `Invalid environment (='${config.environment}'): must be ${Environments.PRODUCTION
-        } or ${Environments.SANDBOX} or ${`Environments.TEST`} or ${Environments.LOCAL
+        } or ${Environments.SANDBOX} or ${Environments.TEST} or ${Environments.LOCAL
         }`
       );
     }
