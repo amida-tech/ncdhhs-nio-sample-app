@@ -3,7 +3,6 @@ import cors from "cors";
 import {AuthorizationToken, BlueButton} from "./sdk";
 import * as fs from "fs";
 
-
 interface User {
     authToken?: AuthorizationToken,   
     conditionData?: any,
@@ -26,6 +25,12 @@ interface User {
     errors?: string[]
 }
 
+const emptyFHIRBundle = {
+  resourceType: "Bundle",
+  total: 0,
+  entry: []
+};
+
 const BENE_DENIED_ACCESS = "access_denied"
 const FE_MSG_ACCESS_DENIED = "Beneficiary denied app access to their data"
 const ERR_QUERY_EOB = "Error when querying the patient's EOB!"
@@ -47,6 +52,23 @@ const authData = bb.generateAuthData();
 // account management system
 
 const loggedInUser: User = {
+    conditionData: emptyFHIRBundle,
+    coverageData: emptyFHIRBundle,
+    diagnosticReportData: emptyFHIRBundle,
+    encounterData: emptyFHIRBundle,
+    eobData: emptyFHIRBundle,
+    insurancePlanData: emptyFHIRBundle,
+    locationData: emptyFHIRBundle,
+    medicationRequestData: emptyFHIRBundle,
+    observationData: emptyFHIRBundle,
+    organizationData: emptyFHIRBundle,
+    organizationAffiliationData: emptyFHIRBundle,
+    patientData: emptyFHIRBundle,
+    profileData: emptyFHIRBundle,
+    practitionerData: emptyFHIRBundle,
+    practitionerRoleData: emptyFHIRBundle,
+    procedureData: emptyFHIRBundle,
+    serviceRequestData: emptyFHIRBundle,
 };
 
 // helper to clean up cached eob data
@@ -63,6 +85,7 @@ let authToken: AuthorizationToken;
 
 // authorization flow for base user.
 app.get("/api/authorize/authurl", async (req: Request, res: Response) => {
+
   res.send(await bb.generateAuthorizeUrl(authData, ""));
 });
 
@@ -207,7 +230,7 @@ app.get("/api/data/coverage", (req: Request, res: Response) => {
 app.get("/api/data/diagnosticReport", (req: Request, res: Response) => {
   if (loggedInUser.diagnosticReportData) {
     res.json(loggedInUser.diagnosticReportData);
-  }
+  } 
 });
 
 app.get("/api/data/encounter", (req: Request, res: Response) => {
