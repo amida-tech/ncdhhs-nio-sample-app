@@ -22,6 +22,7 @@ interface User {
     practitionerRoleData?: any,
     procedureData?: any,
     serviceRequestData?: any,
+    visionPrescriptionData?: any,
     errors?: string[]
 }
 
@@ -69,6 +70,7 @@ const loggedInUser: User = {
     practitionerRoleData: emptyFHIRBundle,
     procedureData: emptyFHIRBundle,
     serviceRequestData: emptyFHIRBundle,
+    visionPrescriptionData: emptyFHIRBundle,
 };
 
 // helper to clean up cached eob data
@@ -147,8 +149,9 @@ app.get("/api/bluebutton/callback", (req: Request, res: Response) => {
               const practitionerRoleResults = await bb.getPractitionerRole(authToken);
               const procedureResults = await bb.getProcedureData(authToken);
               const serviceRequestResults = await bb.getServiceRequestData(authToken);
+              const visionPrescriptionResults = await bb.getVisionPrescriptionData(authToken);
            
-              authToken = serviceRequestResults.token; // in case authToken got refreshed during fhir call
+              authToken = visionPrescriptionResults.token; // in case authToken got refreshed during fhir call
               loggedInUser.authToken = authToken;
               
               loggedInUser.conditionData = conditionResults.response?.data;
@@ -168,6 +171,7 @@ app.get("/api/bluebutton/callback", (req: Request, res: Response) => {
               loggedInUser.practitionerRoleData = practitionerRoleResults.response?.data;
               loggedInUser.procedureData = procedureResults.response?.data;
               loggedInUser.serviceRequestData = serviceRequestResults.response?.data;
+              loggedInUser.visionPrescriptionData = visionPrescriptionResults.response?.data;
 
               console.log('-----USER AND RETRIEVED DATA-----')
               console.log(loggedInUser);
@@ -320,6 +324,12 @@ app.get("/api/data/procedure", (req: Request, res: Response) => {
 app.get("/api/data/serviceRequest", (req: Request, res: Response) => {
   if (loggedInUser.serviceRequestData) {
     res.json(loggedInUser.serviceRequestData);
+  }
+});
+
+app.get("/api/data/visionPrescription", (req: Request, res: Response) => {
+  if (loggedInUser.visionPrescriptionData) {
+    res.json(loggedInUser.visionPrescriptionData);
   }
 });
 

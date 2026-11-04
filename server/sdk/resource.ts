@@ -25,7 +25,8 @@ export enum FhirResourceType {
   Practitioner = "fhir/Practitioner",
   PractitionerRole = "fhir/PractitionerRole",
   Procedure = "fhir/Procedure",
-  ServiceRequest = "fhir/ServiceRequest"
+  ServiceRequest = "fhir/ServiceRequest",
+  VisionPrescription = "fhir/VisionPrescription"
 }
 
 export function sleep(time: number) {

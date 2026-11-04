@@ -102,7 +102,8 @@ bb.baseUrl
     "patient/Practitioner.read",
     "patient/PractitionerRole.read",
     "patient/Procedure.read",
-    "patient/ServiceRequest.read"
+    "patient/ServiceRequest.read",
+    "patient/VisionPrescription.read"
   ]
 
   // optionally add in patient scope to request for authorized representatives.

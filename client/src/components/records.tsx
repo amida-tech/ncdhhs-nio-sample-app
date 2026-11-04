@@ -15,6 +15,7 @@ import FHIRPractitioner from './fhir/practitioner';
 import FHIRPractitionerRole from './fhir/practitionerRole';
 import FHIRProcedure from './fhir/procedure';
 import FHIRServiceRequest from './fhir/serviceRequest';
+import FHIRVisionPrescription from './fhir/visionPrescription';
 import FHIRPatientName from './fhir/patientName';
 
 export default function Records() { 
@@ -47,6 +48,8 @@ export default function Records() {
                         <FHIRProcedure />
                         <h2>Service Requests</h2>
                         <FHIRServiceRequest />
+                        <h2>Vision Prescriptions</h2>
+                        <FHIRVisionPrescription />
                       </div>
                 </TabPanel>
                 <TabPanel id="administrative" tab="Administrative Records">
