@@ -501,6 +501,24 @@ export class BlueButton {
     );
   }
 
+  /**
+   * Returns the VisionPrescription resources for the current (authorized) beneficiary
+   * @param authToken - AuthorizationToken with access token info
+   * @param config - extra request parameters
+   * @returns authToken and Fhir Bundle of VisionPrescription resources
+   */
+  async getVisionPrescriptionData(
+    authToken: AuthorizationToken,
+    config: AxiosRequestConfig = {}
+  ) {
+    return await getFhirResource(
+      FhirResourceType.VisionPrescription,
+      authToken,
+      this,
+      config
+    );
+  }
+
 
   /**
    * Returns the resource(s) for the current (authorized) beneficiary as identified by the url path
