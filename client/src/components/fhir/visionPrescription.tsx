@@ -84,7 +84,7 @@ export default function FHIRVisionPrescription() {
                 <div className="ds-l-col--12"><h3>Total Records: {bundleCount}{bundleCount > 10 && ', displaying first 10'}</h3></div>
                 {bundleRecords.map(record => {
                     return (
-                        <div className="default-card ds-u-margin--2">
+                        <div key={record.fullUrl} className="default-card ds-u-margin--2">
                             <Tabs>
                                 <TabPanel key="display" id="display" tab="Display">
                                     <Table>
@@ -104,6 +104,7 @@ export default function FHIRVisionPrescription() {
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>
+                                        <TableBody>
                                         <TableRow>
                                             <TableCell>
                                                 Date Written:
@@ -141,6 +142,7 @@ export default function FHIRVisionPrescription() {
                                                 </TableRow>
                                             );
                                         })}
+                                        </TableBody>
                                     </Table>
                                 </TabPanel>
                                 <TabPanel key="source" id="source" tab="Source">
